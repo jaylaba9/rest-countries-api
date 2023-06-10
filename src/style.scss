@@ -89,6 +89,10 @@ body {
   display: flex;
 }
 
+.grid {
+  display: grid;
+}
+
 /* ---------- REUSABLES ---------- */
 .btn {
   cursor: pointer;
@@ -166,7 +170,7 @@ section {
   margin: 2rem 3rem;
 
   .countries-list {
-    flex-direction: column;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
     padding: 0;
     gap: 2rem;
 

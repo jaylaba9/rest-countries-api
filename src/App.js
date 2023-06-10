@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon } from '@fortawesome/free-regular-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
@@ -5,6 +7,22 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import './style.css';
 
 function App() {
+  const [countries, setCountries] = useState([]);
+  useEffect(() => {
+    fetch(
+      'https://restcountries.com/v3.1/all?fields=name,capital,region,population,flag'
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+        // console.log(data[0].name.common);
+        setCountries(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
   return (
     <>
       <header className="flex">
@@ -17,7 +35,7 @@ function App() {
 
       <Navigation />
 
-      <CountriesList />
+      <CountriesList countries={countries} setCountries={setCountries} />
     </>
   );
 }
@@ -57,32 +75,40 @@ function FilterSelect() {
   );
 }
 
-function CountriesList() {
+function CountriesList({ countries, setCountries }) {
   return (
     <section>
-      <ul className="countries-list flex">
-        <CountryTile />
-        <CountryTile />
+      <ul className="countries-list grid">
+        {countries.map((country) => (
+          <CountryTile
+            key={country.name.common}
+            countryObj={country}
+            setCountries={setCountries}
+          />
+        ))}
       </ul>
     </section>
   );
 }
 
-function CountryTile() {
+function CountryTile({ countryObj, setCountries }) {
   return (
     <div className="country flex">
       <div className="country__flag"></div>
       <div className="country__info">
-        <h2>Country</h2>
+        <h2>{countryObj.name.common}</h2>
         <ul>
           <li>
-            <span>Population: </span>32532352
+            <span>Population: </span>
+            {countryObj.population}
           </li>
           <li>
-            <span>Region: </span>Europe
+            <span>Region: </span>
+            {countryObj.region}
           </li>
           <li>
-            <span>Capital: </span>Berlin
+            <span>Capital: </span>
+            {countryObj.capital[0]}
           </li>
         </ul>
       </div>
