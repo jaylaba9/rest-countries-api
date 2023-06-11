@@ -8,20 +8,26 @@ import './style.css';
 
 function App() {
   const [countries, setCountries] = useState([]);
+  const [currentRegion, setCurrentRegion] = useState('All');
   useEffect(() => {
     fetch(
-      'https://restcountries.com/v3.1/all?fields=name,capital,region,population,flag'
+      'https://restcountries.com/v3.1/all?fields=name,capital,region,population,flags'
     )
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
-        // console.log(data[0].name.common);
-        setCountries(data);
+        if (currentRegion !== 'All') {
+          const filteredData = data.filter(
+            (country) => country.region === currentRegion
+          );
+          setCountries(filteredData);
+        } else {
+          setCountries(data);
+        }
       })
       .catch((err) => {
         console.log(err.message);
       });
-  }, []);
+  }, [currentRegion]);
 
   return (
     <>
@@ -78,15 +84,17 @@ function FilterSelect() {
 function CountriesList({ countries, setCountries }) {
   return (
     <section>
-      <ul className="countries-list grid">
-        {countries.map((country) => (
-          <CountryTile
-            key={country.name.common}
-            countryObj={country}
-            setCountries={setCountries}
-          />
-        ))}
-      </ul>
+      <div className="grid-wrapper">
+        <ul className="countries-list grid">
+          {countries.map((country) => (
+            <CountryTile
+              key={country.name.common}
+              countryObj={country}
+              setCountries={setCountries}
+            />
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }
@@ -94,7 +102,10 @@ function CountriesList({ countries, setCountries }) {
 function CountryTile({ countryObj, setCountries }) {
   return (
     <div className="country flex">
-      <div className="country__flag"></div>
+      <div
+        className="country__flag"
+        style={{ backgroundImage: `url(${countryObj.flags.svg})` }}
+      ></div>
       <div className="country__info">
         <h2>{countryObj.name.common}</h2>
         <ul>

@@ -119,6 +119,11 @@ header h1 {
   font-weight: 800;
 }
 
+@media (min-width: 52em) {
+  header {
+    padding: 2rem 3rem;
+  }
+}
 .search-form {
   flex-direction: column;
   margin: 0 1rem;
@@ -156,34 +161,49 @@ header h1 {
   box-shadow: 0 4px 4px hsl(0, 0%, 95%);
 }
 
+@media (min-width: 52em) {
+  .search-form {
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 3rem;
+  }
+  .search-form input {
+    width: 400px !important;
+  }
+}
 section {
   margin: 2rem 3rem;
 }
-section .countries-list {
+section .grid-wrapper {
+  max-width: 70rem;
+  margin: 0 auto;
+}
+section .grid-wrapper .countries-list {
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
   padding: 0;
   gap: 2rem;
 }
-section .countries-list .country {
+section .grid-wrapper .countries-list .country {
   flex-direction: column;
   overflow: hidden;
   border-radius: 0.5rem;
   box-shadow: 0 4px 4px hsl(0, 0%, 95%);
-}
-section .countries-list .country .country__flag {
-  height: 160px;
-  background-color: black;
-}
-section .countries-list .country .country__info {
   background-color: hsl(0, 0%, 100%);
+}
+section .grid-wrapper .countries-list .country .country__flag {
+  height: 160px;
+  background-position: center;
+  background-size: cover;
+}
+section .grid-wrapper .countries-list .country .country__info {
   font-size: 1rem;
   padding: 1rem 1.5rem 2rem;
 }
-section .countries-list .country .country__info h2 {
+section .grid-wrapper .countries-list .country .country__info h2 {
   font-weight: 800;
   margin-bottom: 1rem;
 }
-section .countries-list .country .country__info ul {
+section .grid-wrapper .countries-list .country .country__info ul {
   list-style: none;
   font-family: inherit;
   padding: 0;
