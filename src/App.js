@@ -39,18 +39,24 @@ function App() {
         </button>
       </header>
 
-      <Navigation />
+      <Navigation
+        currentRegion={currentRegion}
+        setCurrentRegion={setCurrentRegion}
+      />
 
       <CountriesList countries={countries} setCountries={setCountries} />
     </>
   );
 }
 
-function Navigation() {
+function Navigation({ currentRegion, setCurrentRegion }) {
   return (
     <form className="search-form flex">
       <SearchBox />
-      <FilterSelect />
+      <FilterSelect
+        currentRegion={currentRegion}
+        setCurrentRegion={setCurrentRegion}
+      />
     </form>
   );
 }
@@ -68,15 +74,23 @@ function SearchBox() {
   );
 }
 
-function FilterSelect() {
+const REGIONS = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'];
+function FilterSelect({ currentRegion, setCurrentRegion }) {
+  const handleChange = (e) => {
+    setCurrentRegion(e.target.value);
+  };
+
   return (
-    <select>
-      <option value="">Filter by Region</option>
-      <option value="Africa">Africa</option>
-      <option value="America">America</option>
-      <option value="Asia">Asia</option>
-      <option value="Europe">Europe</option>
-      <option value="Oceania">Oceania</option>
+    <select defaultValue={currentRegion} onChange={handleChange}>
+      <option value="All" disabled={true} hidden={true}>
+        Filter by Region
+      </option>
+      <option value="All">All</option>
+      {REGIONS.map((region) => (
+        <option key={region} value={region}>
+          {region}
+        </option>
+      ))}
     </select>
   );
 }
@@ -111,7 +125,7 @@ function CountryTile({ countryObj, setCountries }) {
         <ul>
           <li>
             <span>Population: </span>
-            {countryObj.population}
+            {countryObj.population.toLocaleString('en-US')}
           </li>
           <li>
             <span>Region: </span>

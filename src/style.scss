@@ -104,6 +104,12 @@ body {
   padding: 0;
 }
 
+@media (min-width: 100rem) {
+  .btn {
+    font-size: 1.125rem;
+  }
+}
+
 span {
   font-weight: 800;
 }
@@ -128,6 +134,16 @@ header {
 @media (min-width: 52em) {
   header {
     padding: 2rem 3rem;
+  }
+}
+
+@media (min-width: 100rem) {
+  header {
+    padding: 2rem 6rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
   }
 }
 
@@ -182,13 +198,18 @@ header {
   }
 }
 
+@media (min-width: 100rem) {
+  .search-form {
+    margin: 0 6rem;
+  }
+}
+
 // ------> section countries list
 section {
-  // width: 100%;
   margin: 2rem 3rem;
 
   .grid-wrapper {
-    max-width: 70rem;
+    // max-width: 90rem;
     margin: 0 auto;
     .countries-list {
       grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
@@ -223,6 +244,17 @@ section {
             padding: 0;
           }
         }
+      }
+    }
+  }
+}
+
+@media (min-width: 100rem) {
+  section {
+    margin: 2rem 6rem;
+    .grid-wrapper {
+      .countries-list {
+        gap: 4rem;
       }
     }
   }
