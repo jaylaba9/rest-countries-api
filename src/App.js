@@ -9,6 +9,7 @@ import './style.css';
 function App() {
   const [countries, setCountries] = useState([]);
   const [currentRegion, setCurrentRegion] = useState('All');
+  const [query, setQuery] = useState('');
   useEffect(() => {
     fetch(
       'https://restcountries.com/v3.1/all?fields=name,capital,region,population,flags'
@@ -27,7 +28,7 @@ function App() {
       .catch((err) => {
         console.log(err.message);
       });
-  }, [currentRegion]);
+  }, [currentRegion, query]);
 
   return (
     <>
@@ -42,17 +43,22 @@ function App() {
       <Navigation
         currentRegion={currentRegion}
         setCurrentRegion={setCurrentRegion}
+        setQuery={setQuery}
       />
 
-      <CountriesList countries={countries} setCountries={setCountries} />
+      <CountriesList
+        countries={countries}
+        setCountries={setCountries}
+        query={query}
+      />
     </>
   );
 }
 
-function Navigation({ currentRegion, setCurrentRegion }) {
+function Navigation({ currentRegion, setCurrentRegion, setQuery }) {
   return (
     <form className="search-form flex">
-      <SearchBox />
+      <SearchBox setQuery={setQuery} />
       <FilterSelect
         currentRegion={currentRegion}
         setCurrentRegion={setCurrentRegion}
@@ -61,10 +67,14 @@ function Navigation({ currentRegion, setCurrentRegion }) {
   );
 }
 
-function SearchBox() {
+function SearchBox({ setQuery }) {
   return (
     <div className="input-wrapper">
-      <input type="text" placeholder="Search for a country..."></input>
+      <input
+        type="text"
+        placeholder="Search for a country..."
+        onChange={(e) => setQuery(e.target.value)}
+      ></input>
       <FontAwesomeIcon
         icon={faMagnifyingGlass}
         size="lg"
@@ -95,18 +105,24 @@ function FilterSelect({ currentRegion, setCurrentRegion }) {
   );
 }
 
-function CountriesList({ countries, setCountries }) {
+function CountriesList({ countries, setCountries, query }) {
   return (
     <section>
       <div className="grid-wrapper">
         <ul className="countries-list grid">
-          {countries.map((country) => (
-            <CountryTile
-              key={country.name.common}
-              countryObj={country}
-              setCountries={setCountries}
-            />
-          ))}
+          {countries
+            .filter((item) =>
+              query.toLowerCase() === ''
+                ? item
+                : item.name.common.toLowerCase().startsWith(query)
+            )
+            .map((country) => (
+              <CountryTile
+                key={country.name.common}
+                countryObj={country}
+                setCountries={setCountries}
+              />
+            ))}
         </ul>
       </div>
     </section>
