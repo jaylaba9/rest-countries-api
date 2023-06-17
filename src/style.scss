@@ -8,6 +8,35 @@ $clr-dark-background: hsl(207, 26%, 17%);
 
 $box-shadow: 0 4px 4px hsl(0, 0%, 95%);
 
+$themes: (
+  light: (
+    text: hsl(200, 15%, 8%),
+    bg: hsl(0, 0%, 98%),
+    input: hsl(0, 0%, 52%),
+    elements: hsl(0, 0%, 100%),
+    shadow: hsl(0, 0%, 95%),
+  ),
+  dark: (
+    text: hsl(0, 0%, 100%),
+    bg: hsl(207, 26%, 17%),
+    input: hsl(0, 0%, 100%),
+    elements: hsl(209, 23%, 22%),
+    shadow: hsl(207, 25%, 20%),
+  ),
+);
+
+@mixin themify($themes) {
+  @each $name, $values in $themes {
+    .#{$name}-theme {
+      $theme-map: $values !global;
+      @content;
+    }
+  }
+}
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
 /* ---------- CSS RESET ---------- */
 /*
   1. Use a more-intuitive box-sizing model.
@@ -74,14 +103,49 @@ h6 {
 
 /* ---------- GENERAL STYLING ---------- */
 body {
-  background-color: $clr-light-background;
   font-size: 0.875rem;
   font-family: 'Nunito Sans', sans-serif;
-  color: $clr-light-text;
 }
 
 #root {
   margin: 0 auto;
+}
+
+/* ---------- COLORS STYLING ---------- */
+@include themify($themes) {
+  body {
+    background-color: themed(bg);
+    color: themed(text);
+  }
+
+  header {
+    background-color: themed(elements);
+    box-shadow: themed(shadow);
+  }
+
+  .btn {
+    color: themed(text);
+  }
+
+  input {
+    background-color: themed(elements);
+    box-shadow: themed(shadow);
+    color: themed(input);
+
+    &::placeholder {
+      color: themed(input);
+    }
+  }
+
+  select {
+    background-color: themed(elements);
+    color: themed(input);
+  }
+
+  .country {
+    background-color: themed(elements);
+    box-shadow: themed(shadow);
+  }
 }
 
 /* ---------- UTILITY CLASSES ---------- */
@@ -117,12 +181,11 @@ span {
 /* ---------- APP STYLING ---------- */
 
 // ------> header
+
 header {
-  background-color: $clr-white;
   justify-content: space-between;
   align-items: center;
   padding: 2rem 1rem;
-  box-shadow: $box-shadow;
   margin-bottom: 1.5rem;
 
   h1 {
@@ -167,12 +230,6 @@ header {
       border: none;
       padding: 1rem 1rem 1rem 5rem;
       border-radius: 0.5rem;
-      box-shadow: $box-shadow;
-    }
-
-    input::placeholder {
-      color: $clr-light-input;
-      font-family: inherit;
     }
   }
 
@@ -182,7 +239,6 @@ header {
     border-radius: 0.5rem;
     padding: 1rem;
     font-weight: 600;
-    box-shadow: $box-shadow;
   }
 }
 
@@ -220,8 +276,6 @@ section {
         flex-direction: column;
         overflow: hidden;
         border-radius: 0.5rem;
-        box-shadow: $box-shadow;
-        background-color: $clr-white;
 
         .country__flag {
           height: 160px;

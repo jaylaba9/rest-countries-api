@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon } from '@fortawesome/free-regular-svg-icons';
+import { faMoon, faSun } from '@fortawesome/free-regular-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 import './style.css';
 
 function App() {
+  const getThemeValue = () => localStorage.getItem('theme');
+
   const [countries, setCountries] = useState([]);
   const [currentRegion, setCurrentRegion] = useState('All');
   const [query, setQuery] = useState('');
+  const [theme, setTheme] = useState(getThemeValue());
+
   useEffect(() => {
     fetch(
       'https://restcountries.com/v3.1/all?fields=name,capital,region,population,flags'
@@ -30,13 +34,36 @@ function App() {
       });
   }, [currentRegion, query]);
 
+  useEffect(() => {
+    if (theme === 'light-theme') {
+      document.documentElement.classList.remove('dark-theme');
+      document.documentElement.classList.add('light-theme');
+    } else {
+      document.documentElement.classList.remove('light-theme');
+      document.documentElement.classList.add('dark-theme');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const handleThemeChange = () => {
+    if (theme === 'light-theme') {
+      setTheme('dark-theme');
+    } else {
+      setTheme('light-theme');
+    }
+  };
+
   return (
     <>
       <header className="flex">
         <h1>Where in the world?</h1>
-        <button className="btn flex">
-          <FontAwesomeIcon icon={faMoon} size="lg" />
-          Dark Mode
+        <button className="btn flex" onClick={handleThemeChange}>
+          {theme === 'light-theme' ? (
+            <FontAwesomeIcon icon={faMoon} size="lg" />
+          ) : (
+            <FontAwesomeIcon icon={faSun} size="lg" />
+          )}
+          Switch Mode
         </button>
       </header>
 
@@ -46,11 +73,7 @@ function App() {
         setQuery={setQuery}
       />
 
-      <CountriesList
-        countries={countries}
-        setCountries={setCountries}
-        query={query}
-      />
+      <CountriesList countries={countries} query={query} />
     </>
   );
 }
@@ -105,7 +128,7 @@ function FilterSelect({ currentRegion, setCurrentRegion }) {
   );
 }
 
-function CountriesList({ countries, setCountries, query }) {
+function CountriesList({ countries, query }) {
   return (
     <section>
       <div className="grid-wrapper">
@@ -117,11 +140,7 @@ function CountriesList({ countries, setCountries, query }) {
                 : item.name.common.toLowerCase().startsWith(query)
             )
             .map((country) => (
-              <CountryTile
-                key={country.name.common}
-                countryObj={country}
-                setCountries={setCountries}
-              />
+              <CountryTile key={country.name.common} countryObj={country} />
             ))}
         </ul>
       </div>
@@ -129,7 +148,7 @@ function CountriesList({ countries, setCountries, query }) {
   );
 }
 
-function CountryTile({ countryObj, setCountries }) {
+function CountryTile({ countryObj }) {
   return (
     <div className="country flex">
       <div

@@ -71,14 +71,75 @@ h6 {
 
 /* ---------- GENERAL STYLING ---------- */
 body {
-  background-color: hsl(0, 0%, 98%);
   font-size: 0.875rem;
   font-family: "Nunito Sans", sans-serif;
-  color: hsl(200, 15%, 8%);
 }
 
 #root {
   margin: 0 auto;
+}
+
+/* ---------- COLORS STYLING ---------- */
+.light-theme body {
+  background-color: hsl(0, 0%, 98%);
+  color: hsl(200, 15%, 8%);
+}
+.light-theme header {
+  background-color: hsl(0, 0%, 100%);
+  box-shadow: hsl(0, 0%, 95%);
+}
+.light-theme .btn {
+  color: hsl(200, 15%, 8%);
+}
+.light-theme input {
+  background-color: hsl(0, 0%, 100%);
+  box-shadow: hsl(0, 0%, 95%);
+  color: hsl(0, 0%, 52%);
+}
+.light-theme input::-moz-placeholder {
+  color: hsl(0, 0%, 52%);
+}
+.light-theme input::placeholder {
+  color: hsl(0, 0%, 52%);
+}
+.light-theme select {
+  background-color: hsl(0, 0%, 100%);
+  color: hsl(0, 0%, 52%);
+}
+.light-theme .country {
+  background-color: hsl(0, 0%, 100%);
+  box-shadow: hsl(0, 0%, 95%);
+}
+
+.dark-theme body {
+  background-color: hsl(207, 26%, 17%);
+  color: hsl(0, 0%, 100%);
+}
+.dark-theme header {
+  background-color: hsl(209, 23%, 22%);
+  box-shadow: hsl(207, 25%, 20%);
+}
+.dark-theme .btn {
+  color: hsl(0, 0%, 100%);
+}
+.dark-theme input {
+  background-color: hsl(209, 23%, 22%);
+  box-shadow: hsl(207, 25%, 20%);
+  color: hsl(0, 0%, 100%);
+}
+.dark-theme input::-moz-placeholder {
+  color: hsl(0, 0%, 100%);
+}
+.dark-theme input::placeholder {
+  color: hsl(0, 0%, 100%);
+}
+.dark-theme select {
+  background-color: hsl(209, 23%, 22%);
+  color: hsl(0, 0%, 100%);
+}
+.dark-theme .country {
+  background-color: hsl(209, 23%, 22%);
+  box-shadow: hsl(207, 25%, 20%);
 }
 
 /* ---------- UTILITY CLASSES ---------- */
@@ -112,11 +173,9 @@ span {
 
 /* ---------- APP STYLING ---------- */
 header {
-  background-color: hsl(0, 0%, 100%);
   justify-content: space-between;
   align-items: center;
   padding: 2rem 1rem;
-  box-shadow: 0 4px 4px hsl(0, 0%, 95%);
   margin-bottom: 1.5rem;
 }
 header h1 {
@@ -155,15 +214,6 @@ header h1 {
   border: none;
   padding: 1rem 1rem 1rem 5rem;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 4px hsl(0, 0%, 95%);
-}
-.search-form .input-wrapper input::-moz-placeholder {
-  color: hsl(0, 0%, 52%);
-  font-family: inherit;
-}
-.search-form .input-wrapper input::placeholder {
-  color: hsl(0, 0%, 52%);
-  font-family: inherit;
 }
 .search-form select {
   width: 210px;
@@ -171,7 +221,6 @@ header h1 {
   border-radius: 0.5rem;
   padding: 1rem;
   font-weight: 600;
-  box-shadow: 0 4px 4px hsl(0, 0%, 95%);
 }
 
 @media (min-width: 52em) {
@@ -204,8 +253,6 @@ section .grid-wrapper .countries-list .country {
   flex-direction: column;
   overflow: hidden;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 4px hsl(0, 0%, 95%);
-  background-color: hsl(0, 0%, 100%);
 }
 section .grid-wrapper .countries-list .country .country__flag {
   height: 160px;
